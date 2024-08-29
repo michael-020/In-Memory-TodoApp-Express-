@@ -1,6 +1,4 @@
-const fs = require("fs");
 const express = require("express");
-const { title } = require("process");
 const app = express();
 
 app.use(express.json());
@@ -27,7 +25,7 @@ app.post('/', (req, res)=>{
     todos.push({
         id: newId,
         title: newTodo,
-        done: false
+        isDone: false
     });
     
     res.json({
@@ -39,7 +37,7 @@ app.put('/', (req, res) => {
     let completedTodo = req.body.completedTodo;
     todos.forEach(todo=>{
         if(todo.title == completedTodo){
-            todo.done =  true;
+            todo.isDone =  true;
         }
     })
     
@@ -54,7 +52,7 @@ app.delete('/', (req, res)=>{
     let numTodo = todoArr.length
     let newTodoArr = [];
     for(let i=0; i<numTodo; i++){
-        if(todos[i].done === false)
+        if(todos[i].isDone === false)
         newTodoArr.push(todoArr[i]);
     }
     todos = newTodoArr;
