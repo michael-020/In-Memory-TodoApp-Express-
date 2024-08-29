@@ -22,6 +22,10 @@ let newId = 0;
 app.post('/', (req, res)=>{
     let newTodo = req.body.newTodo;
     newId++;
+    if (!newTodo || newTodo.trim() === "") {
+        return res.status(400).json({ msg: "Invalid todo" });
+    }
+    
     todos.push({
         id: newId,
         title: newTodo,
