@@ -34,3 +34,16 @@ app.post('/', (req, res)=>{
         msg: "Added Todo"
     })
 })
+
+app.put('/', (req, res) => {
+    let completedTodo = req.body.completedTodo;
+    todos.forEach(todo=>{
+        if(todo.title == completedTodo){
+            todo.done =  true;
+        }
+    })
+    
+    res.json({
+        msg: "marked completed todo"
+    })
+})
