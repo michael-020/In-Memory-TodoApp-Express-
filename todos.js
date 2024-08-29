@@ -19,3 +19,18 @@ app.get('/', (req, res)=>{
         todoArr
     })
 })
+
+let newId = 0;
+app.post('/', (req, res)=>{
+    let newTodo = req.body.newTodo;
+    newId++;
+    todos.push({
+        id: newId,
+        title: newTodo,
+        done: false
+    });
+    
+    res.json({
+        msg: "Added Todo"
+    })
+})
