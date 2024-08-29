@@ -39,6 +39,10 @@ app.post('/', (req, res)=>{
 
 app.put('/', (req, res) => {
     let completedTodo = req.body.completedTodo;
+    if (!completedTodo) {
+        return res.status(400).json({ msg: "No todo provided for completion" });
+    }
+    
     todos.forEach(todo=>{
         if(todo.title == completedTodo){
             todo.isDone =  true;
