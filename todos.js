@@ -34,3 +34,23 @@ app.post('/', (req, res)=>{
         msg: "Added Todo"
     })
 })
+
+app.delete('/', (req, res)=>{
+    let todoArr = todos;
+    let todoObjects= [];
+    let numTodo = todoArr.length
+    let newTodoArr = [];
+    for(let i=0; i<numTodo; i++){
+        if(todos[i].done === false)
+        newTodoArr.push(todoArr[i]);
+    }
+    todos = newTodoArr;
+    let updatedId = 1
+    todos.forEach(todo=>{
+        todo.id = updatedId;
+        updatedId++;
+    })
+    res.json({
+        msg: "Deletion done"
+    })
+})
