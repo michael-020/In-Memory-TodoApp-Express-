@@ -1,5 +1,5 @@
-This is a in-memory todo app using express
-Use Postman to run/test this todo App
+This is a in-memory to-do app built using Express.js, 
+Use Postman to run/test this to-do App
 
 To Add new Todos use: 
 {
