@@ -8,5 +8,5 @@ To Add new Todos use:
 
 To Add update Todos use: 
 {
-"completedTodo": "yourInput"
+"completedTodoId": IdNumber
 }
