@@ -38,13 +38,13 @@ app.post('/', (req, res)=>{
 })
 
 app.put('/', (req, res) => {
-    let completedTodo = req.body.completedTodo;
-    if (!completedTodo) {
+    let completedTodoId = req.body.completedTodoId;
+    if (!completedTodoId) {
         return res.status(400).json({ msg: "No todo provided for completion" });
     }
     
     todos.forEach(todo=>{
-        if(todo.title == completedTodo){
+        if(todo.id == completedTodoId){
             todo.isDone =  true;
         }
     })
@@ -55,13 +55,11 @@ app.put('/', (req, res) => {
 })
 
 app.delete('/', (req, res)=>{
-    let todoArr = todos;
-    let todoObjects= [];
-    let numTodo = todoArr.length
+    let numTodo = todos.length
     let newTodoArr = [];
     for(let i=0; i<numTodo; i++){
         if(todos[i].isDone === false)
-        newTodoArr.push(todoArr[i]);
+        newTodoArr.push(todos[i]);
     }
     todos = newTodoArr;
     let updatedId = 1
