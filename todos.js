@@ -56,20 +56,27 @@ app.put('/', (req, res) => {
 
 app.delete('/', (req, res)=>{
     let numTodo = todos.length
-    let newTodoArr = [];
-    for(let i=0; i<numTodo; i++){
-        if(todos[i].isDone === false)
-        newTodoArr.push(todos[i]);
+    if(numTodo > 0){
+        let newTodoArr = [];
+        for(let i=0; i<numTodo; i++){
+            if(todos[i].isDone === false)
+            newTodoArr.push(todos[i]);
+        }
+        todos = newTodoArr;
+        let updatedId = 1
+        todos.forEach(todo=>{
+            todo.id = updatedId;
+            updatedId++;
+        })
+        res.json({
+            msg: "Deletion done"
+        })
     }
-    todos = newTodoArr;
-    let updatedId = 1
-    todos.forEach(todo=>{
-        todo.id = updatedId;
-        updatedId++;
-    })
-    res.json({
-        msg: "Deletion done"
-    })
+    else{
+        res.sendStatus(411).json({
+                        msg: "You Dont have any todos left to delete"
+                    })
+    }
 })
 
 app.listen(3000)
