@@ -6,31 +6,33 @@ app.use(express.json());
 let todos = [];
 
 app.get('/', (req, res)=>{
-    // let todoArr = todos;
-    // let todoObjects= [];
-    // let numTodo = todoArr.length
-    // for(let i=0; i<numTodo; i++){
-    //     todoObjects.push(todoArr[i]);
-    // }
-
     res.json({
         todos
     })
 })
 
-let newId = 0;
+let newId = 1;
 app.post('/', (req, res)=>{
     let newTodo = req.body.newTodo;
-    newId++;
+   
     if (!newTodo || newTodo.trim() === "") {
         return res.status(400).json({ msg: "Invalid todo" });
     }
-    
+    let newID = 1;
     todos.push({
         id: newId,
         title: newTodo,
         isDone: false
     });
+
+    if(todos.length > 0){
+        
+        todos.forEach(todo=>{
+            todo.id = newId;
+            newId++;
+        })
+        newId = 1;
+    }
     
     res.json({
         msg: "Added Todo"
