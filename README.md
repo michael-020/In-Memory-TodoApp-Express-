@@ -10,3 +10,5 @@ To Add update Todos use:
 {
 "completedTodoId": IdNumber
 }
+
+Delete method lets you delete all the todos that have isDone = true
