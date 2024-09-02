@@ -1,18 +1,32 @@
 const express = require("express");
+const fs = require("fs");
 const app = express();
 
 app.use(express.json());
 
 let todos = [];
+function saveTodosToFile(){
+    fs.writeFile("a.txt", JSON.stringify(todos, null, 2), (err) => {
+        if (err) throw err;
+        console.log('Todos saved to a.txt');
+    });
+}
 
-app.get('/', (req, res)=>{
+fs.readFile("a.txt", (err, data) => {
+    if (err && err.code !== 'ENOENT') throw err;  // Ignore file not found error
+    if (data) {
+        todos = JSON.parse(data);
+    }
+});
+
+app.get('/todos', (req, res)=>{
     res.json({
         todos
     })
 })
 
 let newId = 1;
-app.post('/', (req, res)=>{
+app.post('/addTodo', (req, res)=>{
     let newTodo = req.body.newTodo;
    
     if (!newTodo || newTodo.trim() === "") {
@@ -24,7 +38,7 @@ app.post('/', (req, res)=>{
         title: newTodo,
         isDone: false
     });
-
+    
     if(todos.length > 0){
         
         todos.forEach(todo=>{
@@ -33,13 +47,13 @@ app.post('/', (req, res)=>{
         })
         newId = 1;
     }
-    
+    saveTodosToFile()
     res.json({
         msg: "Added Todo"
     })
 })
 
-app.put('/', (req, res) => {
+app.put('/updateTodo', (req, res) => {
     let completedTodoId = req.body.completedTodoId;
     if (!completedTodoId) {
         return res.status(400).json({ msg: "No todo provided for completion" });
@@ -50,13 +64,13 @@ app.put('/', (req, res) => {
             todo.isDone =  true;
         }
     })
-    
+    saveTodosToFile()
     res.json({
         msg: "marked completed todo"
     })
 })
 
-app.delete('/', (req, res)=>{
+app.delete('/deleteTodo', (req, res)=>{
     let numTodo = todos.length
     if(numTodo > 0){
         let newTodoArr = [];
@@ -70,6 +84,7 @@ app.delete('/', (req, res)=>{
             todo.id = updatedId;
             updatedId++;
         })
+        saveTodosToFile()
         res.json({
             msg: "Deletion done"
         })
